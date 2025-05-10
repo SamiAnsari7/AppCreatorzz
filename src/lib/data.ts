@@ -4,7 +4,7 @@ import { Calculator, FlaskConical, BookOpenText, Landmark, Award, CheckCircle, T
 export const MOCK_USER_PROFILE: UserProfile = {
   id: 'user123',
   name: 'Alex Johnson',
-  avatarUrl: 'https://picsum.photos/seed/alex/200/200',
+  avatarUrl: 'https://picsum.photos/seed/alex/200/200', // Changed to picsum.photos
   xp: 1250,
   level: 12,
   badges: [
@@ -60,7 +60,7 @@ export const MOCK_LESSONS: Lesson[] = [
     categoryId: 'math',
     title: 'Introduction to Algebra',
     description: 'Understand basic algebraic expressions and equations.',
-    thumbnailUrl: 'https://picsum.photos/seed/algebra/300/200',
+    thumbnailUrl: 'https://picsum.photos/seed/algebra/400/225',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
     audioUrl: 'https://www.w3schools.com/html/horse.mp3',
@@ -73,7 +73,7 @@ export const MOCK_LESSONS: Lesson[] = [
     categoryId: 'math',
     title: 'Basics of Geometry',
     description: 'Learn about shapes, lines, and angles.',
-    thumbnailUrl: 'https://picsum.photos/seed/geometry/300/200',
+    thumbnailUrl: 'https://picsum.photos/seed/geometry/400/225',
     isCompleted: false,
     quizId: 'quiz-geo-101',
     duration: '30 min',
@@ -84,7 +84,7 @@ export const MOCK_LESSONS: Lesson[] = [
     categoryId: 'science',
     title: 'Newton\'s Laws of Motion',
     description: 'Explore the fundamental laws governing motion.',
-    thumbnailUrl: 'https://picsum.photos/seed/physics/300/200',
+    thumbnailUrl: 'https://picsum.photos/seed/physics/400/225',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
     isCompleted: true,
     quizId: 'quiz-phy-101',
@@ -95,7 +95,7 @@ export const MOCK_LESSONS: Lesson[] = [
     categoryId: 'science',
     title: 'Introduction to Chemical Reactions',
     description: 'Understand how substances interact and change.',
-    thumbnailUrl: 'https://picsum.photos/seed/chemistry/300/200',
+    thumbnailUrl: 'https://picsum.photos/seed/chemistry/400/225',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
     isCompleted: false,
     duration: '20 min',
@@ -106,7 +106,7 @@ export const MOCK_LESSONS: Lesson[] = [
     categoryId: 'english',
     title: 'Mastering Tenses',
     description: 'Learn to use different verb tenses correctly.',
-    thumbnailUrl: 'https://picsum.photos/seed/grammar/300/200',
+    thumbnailUrl: 'https://picsum.photos/seed/grammar/400/225',
     audioUrl: 'https://www.w3schools.com/html/horse.mp3',
     isCompleted: true,
     quizId: 'quiz-gram-101',
@@ -117,7 +117,7 @@ export const MOCK_LESSONS: Lesson[] = [
     categoryId: 'english',
     title: 'Advanced Vocabulary Building',
     description: 'Expand your word power with new vocabulary.',
-    thumbnailUrl: 'https://picsum.photos/seed/vocabulary/300/200',
+    thumbnailUrl: 'https://picsum.photos/seed/vocabulary/400/225',
     isCompleted: false,
     duration: '22 min',
   },
@@ -127,7 +127,7 @@ export const MOCK_LESSONS: Lesson[] = [
     categoryId: 'history',
     title: 'Causes of World War I',
     description: 'Understand the events leading to the Great War.',
-    thumbnailUrl: 'https://picsum.photos/seed/ww1/300/200',
+    thumbnailUrl: 'https://picsum.photos/seed/ww1/400/225',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
     isCompleted: false,
@@ -230,3 +230,14 @@ export const getCategoryById = (id: string): Category | undefined => MOCK_CATEGO
 export const getLessonsByCategoryId = (categoryId: string): Lesson[] => MOCK_LESSONS.filter(lesson => lesson.categoryId === categoryId);
 export const getLessonById = (id: string): Lesson | undefined => MOCK_LESSONS.find(lesson => lesson.id === id);
 export const getQuizById = (id: string): Quiz | undefined => MOCK_QUIZZES.find(quiz => quiz.id === id);
+
+// Helper function to ensure all lesson thumbnails are from picsum.photos
+// This is more of a conceptual fix as data is static. In a real app, data fetching/validation would handle this.
+MOCK_LESSONS.forEach(lesson => {
+  if (!lesson.thumbnailUrl.startsWith('https://picsum.photos')) {
+    // Replace with a generic picsum URL if it's not already one.
+    // This is a simple example; a more robust solution might involve hashing title for a seed.
+    const seed = lesson.id.replace(/[^a-zA-Z0-9]/g, ''); // create a seed from id
+    lesson.thumbnailUrl = `https://picsum.photos/seed/${seed}/400/225`;
+  }
+});

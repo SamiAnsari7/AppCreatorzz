@@ -27,6 +27,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.w3.org', // For placeholder PDF
         port: '',
         pathname: '/**',
+      },
+      { // Added to support the problematic URL, though it's better to use configured placeholders
+        protocol: 'https',
+        hostname: 'imgs.search.brave.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

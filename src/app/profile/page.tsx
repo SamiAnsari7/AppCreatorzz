@@ -9,10 +9,16 @@ import { Edit3 } from 'lucide-react';
 import { UserProfileEditForm } from '@/components/shared/UserProfileEditForm';
 import { useToast } from "@/hooks/use-toast";
 
+// Helper function to deep clone the profile while preserving icon functions
+const cloneUserProfile = (profile: UserProfile): UserProfile => {
+  return {
+    ...profile,
+    badges: profile.badges.map(badge => ({ ...badge })), // Shallow copy each badge, preserving icon function reference
+  };
+};
+
 export default function ProfilePage() {
-  // Initialize state with a deep copy to avoid direct mutation issues if MOCK_USER_PROFILE is modified elsewhere
-  // and to ensure reactivity when the local state is updated.
-  const [userProfile, setUserProfile] = useState<UserProfile>(() => JSON.parse(JSON.stringify(MOCK_USER_PROFILE)));
+  const [userProfile, setUserProfile] = useState<UserProfile>(() => cloneUserProfile(MOCK_USER_PROFILE));
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toast } = useToast();
 
@@ -21,27 +27,39 @@ export default function ProfilePage() {
     document.title = 'My Profile | Rural Scholar';
   }, []);
 
-  // Effect to listen for changes in the global MOCK_USER_PROFILE.badges array length
-  // This simulates fetching updated profile data in a real app when badges are earned.
+  // Effect to listen for changes in MOCK_USER_PROFILE (e.g., badges earned, XP updated)
   useEffect(() => {
-    // Update the local userProfile state to reflect changes in MOCK_USER_PROFILE
-    // Creating new objects/arrays ensures React detects the change and re-renders.
-    setUserProfile(prevProfile => ({
-      ...prevProfile, // keep existing fields like name, avatar if they were edited locally
-      ...MOCK_USER_PROFILE, // then overlay with potentially updated global mock data
-      badges: [...MOCK_USER_PROFILE.badges], // specifically ensure badges array is a new reference
-    }));
-  }, [MOCK_USER_PROFILE.badges.length]); // Dependency: re-run when number of badges in global mock changes
+    setUserProfile(prevProfile => {
+      // Create a new badges array with copied badge objects to ensure icons are preserved
+      const newBadges = MOCK_USER_PROFILE.badges.map(b => ({ ...b }));
+      return {
+        ...prevProfile, // Keep existing local data like name, avatar
+        // Selectively update fields from MOCK_USER_PROFILE that might have changed due to global actions
+        xp: MOCK_USER_PROFILE.xp,
+        level: MOCK_USER_PROFILE.level,
+        lessonsCompleted: MOCK_USER_PROFILE.lessonsCompleted,
+        coursesCompleted: MOCK_USER_PROFILE.coursesCompleted,
+        streaks: MOCK_USER_PROFILE.streaks,
+        badges: newBadges,
+      };
+    });
+  }, [
+    MOCK_USER_PROFILE.badges.length, 
+    MOCK_USER_PROFILE.xp, 
+    MOCK_USER_PROFILE.level, 
+    MOCK_USER_PROFILE.lessonsCompleted,
+    MOCK_USER_PROFILE.coursesCompleted,
+    MOCK_USER_PROFILE.streaks
+  ]);
 
   const handleSaveProfile = (updatedProfileData: Partial<Pick<UserProfile, 'name' | 'avatarUrl'>>) => {
-    // Update the local state for immediate UI feedback
     const newProfileState = {
       ...userProfile,
       ...updatedProfileData,
     };
     setUserProfile(newProfileState);
 
-    // Also update the MOCK_USER_PROFILE so changes persist across navigation (for mock purposes)
+    // Update MOCK_USER_PROFILE so changes persist across navigation (for mock purposes)
     MOCK_USER_PROFILE.name = newProfileState.name;
     MOCK_USER_PROFILE.avatarUrl = newProfileState.avatarUrl;
     
@@ -67,7 +85,6 @@ export default function ProfilePage() {
       <UserProfileEditForm
         isOpen={isEditModalOpen}
         setIsOpen={setIsEditModalOpen}
-        // Pass the current local state of profile to the edit form
         profile={userProfile} 
         onSave={handleSaveProfile}
       />

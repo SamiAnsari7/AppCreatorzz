@@ -44,6 +44,12 @@ export default function LessonPage({ params, searchParams }: LessonPageProps) {
 
   const hasContent = lesson.videoUrl || lesson.pdfUrl || lesson.audioUrl || quiz;
 
+  const generateDownloadFilename = (baseTitle: string, type: 'video' | 'pdf' | 'audio') => {
+    const sanitizedTitle = baseTitle.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "_").toLowerCase();
+    const extension = type === 'video' ? 'mp4' : type === 'pdf' ? 'pdf' : 'mp3';
+    return `${sanitizedTitle}_${type}.${extension}`;
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -112,21 +118,31 @@ export default function LessonPage({ params, searchParams }: LessonPageProps) {
         </div>
       )}
 
-      {/* Downloadable Content Section (Placeholder) */}
       <div className="mt-8 p-6 bg-card border rounded-lg shadow-sm">
         <h3 className="text-xl font-semibold mb-4">Offline Resources</h3>
-        {lesson.videoUrl || lesson.pdfUrl || lesson.audioUrl ? (
-          <div className="space-y-3">
+        {(lesson.videoUrl || lesson.pdfUrl || lesson.audioUrl) ? (
+          <div className="flex flex-wrap gap-3">
+            {lesson.videoUrl && (
+              <Button variant="outline" asChild>
+                <a href={lesson.videoUrl} download={generateDownloadFilename(lesson.title, 'video')} target="_blank" rel="noopener noreferrer">
+                  <Download className="mr-2 h-4 w-4" /> Download Video
+                </a>
+              </Button>
+            )}
             {lesson.pdfUrl && (
               <Button variant="outline" asChild>
-                <a href={lesson.pdfUrl} download target="_blank" rel="noopener noreferrer">
+                <a href={lesson.pdfUrl} download={generateDownloadFilename(lesson.title, 'pdf')} target="_blank" rel="noopener noreferrer">
                   <Download className="mr-2 h-4 w-4" /> Download PDF Notes
                 </a>
               </Button>
             )}
-            {/* Add similar download buttons for video/audio if direct download links are available and desired */}
-            {/* For video/audio, typically streaming is preferred. This is more for PDF notes or supplementary materials. */}
-            {!lesson.pdfUrl && <p className="text-sm text-muted-foreground">No downloadable files currently available for this lesson.</p>}
+            {lesson.audioUrl && (
+              <Button variant="outline" asChild>
+                <a href={lesson.audioUrl} download={generateDownloadFilename(lesson.title, 'audio')} target="_blank" rel="noopener noreferrer">
+                  <Download className="mr-2 h-4 w-4" /> Download Audio
+                </a>
+              </Button>
+            )}
           </div>
         ) : (
           <p className="text-sm text-muted-foreground">No downloadable resources available for this lesson.</p>

@@ -1,5 +1,14 @@
 import type { LucideIcon } from 'lucide-react';
 
+export interface BadgeInfo {
+  id: string; // Unique ID for the badge, e.g., lessonId or a specific achievement
+  name: string;
+  icon: LucideIcon;
+  color: string; // Tailwind color class e.g. "text-yellow-500"
+  description?: string; // Optional description for the badge
+  earnedDate?: string; // Optional: ISO date string when badge was earned
+}
+
 export interface Category {
   id: string;
   name: string;
@@ -21,6 +30,7 @@ export interface Lesson {
   isCompleted: boolean;
   quizId?: string;
   duration: string; // e.g., "15 min"
+  badgeDetails?: BadgeInfo; // Optional: Badge awarded for completing this lesson
 }
 
 export interface UserProfile {
@@ -29,7 +39,7 @@ export interface UserProfile {
   avatarUrl: string;
   xp: number;
   level: number;
-  badges: { name: string; icon: LucideIcon; color: string }[];
+  badges: BadgeInfo[];
   streaks: number; // consecutive days
   coursesCompleted: number;
   lessonsCompleted: number;
@@ -54,3 +64,4 @@ export interface Quiz {
   title: string;
   questions: Question[];
 }
+

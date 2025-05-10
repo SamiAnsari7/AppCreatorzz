@@ -1,9 +1,10 @@
-import type { UserProfile } from '@/lib/types';
+import type { UserProfile, BadgeInfo } from '@/lib/types';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Award, BarChartBig, CheckCircle, Star, TrendingUp } from 'lucide-react';
+import { Award, BarChartBig, CheckCircle, Star, TrendingUp, Info } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
 interface UserProfileDisplayProps {
@@ -11,8 +12,9 @@ interface UserProfileDisplayProps {
 }
 
 export function UserProfileDisplay({ profile }: UserProfileDisplayProps) {
-  const xpToNextLevel = (profile.level + 1) * 100; // Example: 100 XP per level initially
-  const levelProgress = (profile.xp % xpToNextLevel) / xpToNextLevel * 100;
+  const xpToNextLevel = (profile.level + 1) * 100; 
+  const levelProgress = Math.min((profile.xp % xpToNextLevel) / xpToNextLevel * 100, 100);
+
 
   return (
     <Card className="w-full max-w-3xl mx-auto shadow-xl overflow-hidden">
@@ -56,14 +58,28 @@ export function UserProfileDisplay({ profile }: UserProfileDisplayProps) {
             Your Badges
           </h3>
           {profile.badges.length > 0 ? (
-            <div className="flex flex-wrap gap-3">
-              {profile.badges.map((badge, index) => (
-                <Badge key={index} variant="outline" className={cn("py-2 px-4 text-sm border-2 shadow-sm", badge.color.replace('text-', 'border-'))}>
-                  <badge.icon className={cn("h-4 w-4 mr-2", badge.color)} />
-                  {badge.name}
-                </Badge>
-              ))}
-            </div>
+            <TooltipProvider>
+              <div className="flex flex-wrap gap-3">
+                {profile.badges.map((badge) => (
+                  <Tooltip key={badge.id}>
+                    <TooltipTrigger asChild>
+                      <Badge variant="outline" className={cn("py-2 px-4 text-sm border-2 shadow-sm cursor-default", badge.color.replace('text-', 'border-'))}>
+                        <badge.icon className={cn("h-4 w-4 mr-2", badge.color)} />
+                        {badge.name}
+                        {badge.description && <Info className="ml-1.5 h-3 w-3 text-muted-foreground/70"/>}
+                      </Badge>
+                    </TooltipTrigger>
+                    {badge.description && (
+                      <TooltipContent>
+                        <p className="font-semibold">{badge.name}</p>
+                        <p className="text-xs text-muted-foreground">{badge.description}</p>
+                        {badge.earnedDate && <p className="text-xs text-muted-foreground mt-1">Earned: {new Date(badge.earnedDate).toLocaleDateString()}</p>}
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                ))}
+              </div>
+            </TooltipProvider>
           ) : (
             <p className="text-muted-foreground">No badges earned yet. Keep learning!</p>
           )}

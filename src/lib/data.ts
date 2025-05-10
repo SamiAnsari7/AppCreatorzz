@@ -1,5 +1,5 @@
-import type { Category, Lesson, UserProfile, Quiz } from '@/lib/types';
-import { Calculator, FlaskConical, BookOpenText, Landmark, Award, CheckCircle, TrendingUp, BarChartBig, Video, FileText, Mic, Search, Brain, Atom, Palette, Globe, Lightbulb, Rocket, Dna, Code, Languages } from 'lucide-react';
+import type { Category, Lesson, UserProfile, Quiz, BadgeInfo } from '@/lib/types';
+import { Calculator, FlaskConical, BookOpenText, Landmark, Award, CheckCircle, TrendingUp, BarChartBig, Video, FileText, Mic, Search, Brain, Atom, Palette, Globe, Lightbulb, Rocket, Dna, Code, Languages, Star, Book, ShieldCheck, Target, Puzzle, Edit, ThumbsUp, MessageSquare, BrainCircuit, History, AtomIcon, Sigma, Microscope, PenTool, Earth, Binary, Music2, Sparkles, Camera, BookMarked } from 'lucide-react';
 
 export const MOCK_USER_PROFILE: UserProfile = {
   id: 'user123',
@@ -8,10 +8,10 @@ export const MOCK_USER_PROFILE: UserProfile = {
   xp: 1250,
   level: 12,
   badges: [
-    { name: 'Math Starter', icon: Calculator, color: 'text-green-500' },
-    { name: 'Science Explorer', icon: FlaskConical, color: 'text-blue-500' },
-    { name: 'Grammar Pro', icon: BookOpenText, color: 'text-purple-500' },
-    { name: 'Perfect Streak', icon: TrendingUp, color: 'text-yellow-500' },
+    { id: 'achievement-math-starter', name: 'Math Starter', icon: Calculator, color: 'text-green-500', description: 'Completed your first math lesson.' },
+    { id: 'achievement-science-explorer', name: 'Science Explorer', icon: FlaskConical, color: 'text-blue-500', description: 'Explored the wonders of science.' },
+    { id: 'achievement-grammar-pro', name: 'Grammar Pro', icon: BookOpenText, color: 'text-purple-500', description: 'Mastered the art of grammar.' },
+    { id: 'achievement-perfect-streak', name: 'Perfect Streak', icon: TrendingUp, color: 'text-yellow-500', description: 'Maintained a 7-day learning streak.' },
   ],
   streaks: 7,
   coursesCompleted: 3,
@@ -25,7 +25,7 @@ export const MOCK_CATEGORIES: Category[] = [
     icon: Calculator,
     description: 'Explore algebra, geometry, calculus and more.',
     gradientClasses: 'from-teal-500 via-cyan-500 to-sky-600',
-    lessonsCount: 10, // Updated count
+    lessonsCount: 10, 
   },
   {
     id: 'science',
@@ -33,7 +33,7 @@ export const MOCK_CATEGORIES: Category[] = [
     icon: FlaskConical,
     description: 'Discover physics, chemistry, biology concepts.',
     gradientClasses: 'from-blue-500 via-indigo-500 to-purple-600',
-    lessonsCount: 10, // Updated count
+    lessonsCount: 10, 
   },
   {
     id: 'english',
@@ -41,7 +41,7 @@ export const MOCK_CATEGORIES: Category[] = [
     icon: BookOpenText,
     description: 'Improve grammar, vocabulary, and literature skills.',
     gradientClasses: 'from-pink-500 via-red-500 to-yellow-500',
-    lessonsCount: 10, // Updated count
+    lessonsCount: 10, 
   },
   {
     id: 'history',
@@ -49,7 +49,7 @@ export const MOCK_CATEGORIES: Category[] = [
     icon: Landmark,
     description: 'Learn about world events and civilizations.',
     gradientClasses: 'from-yellow-500 via-amber-500 to-orange-600',
-    lessonsCount: 10, // Updated count
+    lessonsCount: 10, 
   },
   {
     id: 'technology',
@@ -83,6 +83,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-alg-101',
     duration: '25 min',
+    badgeDetails: { id: 'math-alg-101-badge', name: 'Algebra Adept', icon: Sigma, color: 'text-green-500', description: 'Mastered basic algebra.' }
   },
   {
     id: 'math-geo-101',
@@ -94,6 +95,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-geo-101',
     duration: '30 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'math-geo-101-badge', name: 'Shape Shifter', icon: Puzzle, color: 'text-blue-500', description: 'Understood geometric basics.' }
   },
   {
     id: 'math-calc-101',
@@ -105,6 +107,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-calc-101',
     duration: '45 min',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+    badgeDetails: { id: 'math-calc-101-badge', name: 'Calculus Novice', icon: BrainCircuit, color: 'text-purple-500', description: 'Began the calculus journey.' }
   },
   {
     id: 'math-stats-101',
@@ -115,6 +118,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-stats-101',
     duration: '30 min',
+    badgeDetails: { id: 'math-stats-101-badge', name: 'Data Detective', icon: Search, color: 'text-red-500', description: 'Solved mysteries with data.' }
   },
    {
     id: 'math-trig-101',
@@ -126,6 +130,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-trig-101',
     duration: '35 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'math-trig-101-badge', name: 'Angle Architect', icon: Target, color: 'text-orange-500', description: 'Mastered angles and ratios.' }
   },
   {
     id: 'math-prob-101',
@@ -136,6 +141,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-prob-101',
     duration: '20 min',
+    badgeDetails: { id: 'math-prob-101-badge', name: 'Chance Champion', icon: ThumbsUp, color: 'text-yellow-500', description: 'Understood probability.' }
   },
   {
     id: 'math-logic-101',
@@ -147,6 +153,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-logic-101',
     duration: '25 min',
     audioUrl: 'https://www.w3schools.com/html/horse.mp3',
+    badgeDetails: { id: 'math-logic-101-badge', name: 'Logic Luminary', icon: Lightbulb, color: 'text-lime-500', description: 'Solved logical puzzles.' }
   },
   {
     id: 'math-numtheory-101',
@@ -158,6 +165,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-numtheory-101',
     duration: '30 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'math-numtheory-101-badge', name: 'Number Ninja', icon: Star, color: 'text-cyan-500', description: 'Unlocked number secrets.' }
   },
   {
     id: 'math-linalg-101',
@@ -169,6 +177,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-linalg-101',
     duration: '40 min',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+    badgeDetails: { id: 'math-linalg-101-badge', name: 'Matrix Master', icon: AtomIcon, color: 'text-fuchsia-500', description: 'Conquered linear algebra.' }
   },
   {
     id: 'math-financial-101',
@@ -179,6 +188,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-financial-101',
     duration: '28 min',
+    badgeDetails: { id: 'math-financial-101-badge', name: 'Money Math Whiz', icon: Landmark, color: 'text-emerald-500', description: 'Understood financial math.' }
   },
 
 
@@ -193,6 +203,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-phy-101',
     duration: '35 min',
+    badgeDetails: { id: 'sci-phy-101-badge', name: 'Physics Pioneer', icon: Rocket, color: 'text-red-500', description: 'Grasped Newton\'s Laws.' }
   },
   {
     id: 'sci-chem-101',
@@ -204,6 +215,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-chem-101',
     duration: '20 min',
+    badgeDetails: { id: 'sci-chem-101-badge', name: 'Reaction Ruler', icon: FlaskConical, color: 'text-blue-600', description: 'Mastered chemical reactions.' }
   },
   {
     id: 'sci-bio-101',
@@ -215,6 +227,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-bio-101',
     duration: '40 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'sci-bio-101-badge', name: 'Cellular Sage', icon: Dna, color: 'text-green-600', description: 'Understood cell biology.' }
   },
   {
     id: 'sci-eco-101',
@@ -225,6 +238,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-eco-101',
     duration: '30 min',
+    badgeDetails: { id: 'sci-eco-101-badge', name: 'Eco Explorer', icon: Globe, color: 'text-teal-500', description: 'Explored ecosystems.' }
   },
    {
     id: 'sci-astro-101',
@@ -237,6 +251,7 @@ export const MOCK_LESSONS: Lesson[] = [
     duration: '28 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+    badgeDetails: { id: 'sci-astro-101-badge', name: 'Cosmic Voyager', icon: Sparkles, color: 'text-indigo-500', description: 'Journeyed through the solar system.' }
   },
   {
     id: 'sci-genetics-101',
@@ -247,6 +262,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-genetics-101',
     duration: '32 min',
+    badgeDetails: { id: 'sci-genetics-101-badge', name: 'Gene Genius', icon: Microscope, color: 'text-pink-500', description: 'Understood genetics basics.' }
   },
   {
     id: 'sci-geology-101',
@@ -258,6 +274,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-geology-101',
     duration: '38 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'sci-geology-101-badge', name: 'Rock Star', icon: Earth, color: 'text-amber-600', description: 'Learned about Earth\'s structure.' }
   },
   {
     id: 'sci-humanbody-101',
@@ -269,6 +286,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-humanbody-101',
     duration: '42 min',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+    badgeDetails: { id: 'sci-humanbody-101-badge', name: 'Anatomy Ace', icon: ShieldCheck, color: 'text-rose-500', description: 'Explored human anatomy.' }
   },
   {
     id: 'sci-envsci-101',
@@ -279,6 +297,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-envsci-101',
     duration: '33 min',
+    badgeDetails: { id: 'sci-envsci-101-badge', name: 'Planet Protector', icon: BookMarked, color: 'text-lime-600', description: 'Learned environmental basics.' }
   },
   {
     id: 'sci-lightoptics-101',
@@ -290,6 +309,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-lightoptics-101',
     duration: '27 min',
     audioUrl: 'https://www.w3schools.com/html/horse.mp3',
+    badgeDetails: { id: 'sci-lightoptics-101-badge', name: 'Optics Oracle', icon: Lightbulb, color: 'text-yellow-400', description: 'Understood light and optics.' }
   },
 
 
@@ -304,6 +324,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-gram-101',
     duration: '15 min',
+    badgeDetails: { id: 'eng-gram-101-badge', name: 'Tense Titan', icon: Edit, color: 'text-sky-500', description: 'Mastered verb tenses.' }
   },
   {
     id: 'eng-vocab-101',
@@ -314,6 +335,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-vocab-101',
     duration: '22 min',
+    badgeDetails: { id: 'eng-vocab-101-badge', name: 'Word Wizard', icon: BookOpenText, color: 'text-orange-500', description: 'Expanded vocabulary.' }
   },
   {
     id: 'eng-lit-101',
@@ -325,6 +347,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-lit-101',
     duration: '35 min',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+    badgeDetails: { id: 'eng-lit-101-badge', name: 'Bard Beginner', icon: MessageSquare, color: 'text-red-600', description: 'Explored Shakespeare.' }
   },
   {
     id: 'eng-writing-101',
@@ -335,6 +358,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-writing-101',
     duration: '30 min',
+    badgeDetails: { id: 'eng-writing-101-badge', name: 'Essay Expert', icon: PenTool, color: 'text-purple-600', description: 'Learned essay fundamentals.' }
   },
    {
     id: 'eng-poetry-101',
@@ -346,6 +370,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-poetry-101',
     duration: '25 min',
     audioUrl: 'https://www.w3schools.com/html/horse.mp3',
+    badgeDetails: { id: 'eng-poetry-101-badge', name: 'Poetry Pro', icon: Music2, color: 'text-pink-500', description: 'Understood poetic devices.' }
   },
   {
     id: 'eng-speech-101',
@@ -356,6 +381,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-speech-101',
     duration: '18 min',
+    badgeDetails: { id: 'eng-speech-101-badge', name: 'Grammar Guru', icon: Languages, color: 'text-teal-600', description: 'Mastered parts of speech.' }
   },
   {
     id: 'eng-reading-101',
@@ -367,6 +393,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-reading-101',
     duration: '25 min',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+    badgeDetails: { id: 'eng-reading-101-badge', name: 'Reader Extraordinaire', icon: Book, color: 'text-blue-400', description: 'Improved reading skills.' }
   },
   {
     id: 'eng-punctuation-101',
@@ -378,6 +405,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-punctuation-101',
     duration: '20 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'eng-punctuation-101-badge', name: 'Punctuation Pro', icon: CheckCircle, color: 'text-green-500', description: 'Nailed punctuation rules.' }
   },
   {
     id: 'eng-publicspeaking-101',
@@ -388,6 +416,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-publicspeaking-101',
     duration: '30 min',
+    badgeDetails: { id: 'eng-publicspeaking-101-badge', name: 'Confident Speaker', icon: Award, color: 'text-yellow-600', description: 'Learned public speaking.' }
   },
   {
     id: 'eng-figurativelang-101',
@@ -399,6 +428,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-figurativelang-101',
     duration: '22 min',
     audioUrl: 'https://www.w3schools.com/html/horse.mp3',
+    badgeDetails: { id: 'eng-figurativelang-101-badge', name: 'Figure of Speech Fan', icon: Brain, color: 'text-indigo-600', description: 'Explored figurative language.' }
   },
 
   // History Lessons (target 10)
@@ -413,6 +443,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-hist-ww1',
     duration: '40 min',
+    badgeDetails: { id: 'hist-ww1-101-badge', name: 'WWI Whiz', icon: History, color: 'text-gray-600', description: 'Understood WWI causes.' }
   },
   {
     id: 'hist-egypt-101',
@@ -424,6 +455,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-hist-egypt',
     duration: '38 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'hist-egypt-101-badge', name: 'Egypt Expert', icon: Landmark, color: 'text-yellow-700', description: 'Explored Ancient Egypt.' }
   },
   {
     id: 'hist-rome-101',
@@ -434,6 +466,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-hist-rome',
     duration: '45 min',
+    badgeDetails: { id: 'hist-rome-101-badge', name: 'Roman Scholar', icon: ShieldCheck, color: 'text-red-700', description: 'Studied the Roman Empire.' }
   },
   {
     id: 'hist-renaissance-101',
@@ -445,6 +478,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-hist-renaissance',
     duration: '30 min',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+    badgeDetails: { id: 'hist-renaissance-101-badge', name: 'Renaissance Rover', icon: Palette, color: 'text-purple-700', description: 'Explored the Renaissance.' }
   },
   {
     id: 'hist-civrights-101',
@@ -456,6 +490,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-hist-civrights',
     duration: '35 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'hist-civrights-101-badge', name: 'Equality Advocate', icon: ThumbsUp, color: 'text-blue-700', description: 'Learned about Civil Rights.' }
   },
   {
     id: 'hist-industrialrev-101',
@@ -466,6 +501,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-hist-industrialrev',
     duration: '40 min',
+    badgeDetails: { id: 'hist-industrialrev-101-badge', name: 'Industrial Innovator', icon: Atom, color: 'text-orange-700', description: 'Understood Industrial Revolution.' }
   },
   {
     id: 'hist-coldwar-101',
@@ -477,6 +513,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-hist-coldwar',
     duration: '42 min',
     audioUrl: 'https://www.w3schools.com/html/horse.mp3',
+    badgeDetails: { id: 'hist-coldwar-101-badge', name: 'Cold War Connoisseur', icon: Globe, color: 'text-cyan-700', description: 'Explored Cold War history.' }
   },
   {
     id: 'hist-exploration-101',
@@ -487,6 +524,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-hist-exploration',
     duration: '33 min',
+    badgeDetails: { id: 'hist-exploration-101-badge', name: 'Discovery Driver', icon: Rocket, color: 'text-green-700', description: 'Learned Age of Exploration.' }
   },
   {
     id: 'hist-ancientgreece-101',
@@ -498,6 +536,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-hist-ancientgreece',
     duration: '37 min',
     videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    badgeDetails: { id: 'hist-ancientgreece-101-badge', name: 'Greek Guru', icon: BrainCircuit, color: 'text-indigo-700', description: 'Studied Ancient Greece.' }
   },
   {
     id: 'hist-worldwar2-101',
@@ -509,6 +548,7 @@ export const MOCK_LESSONS: Lesson[] = [
     quizId: 'quiz-hist-worldwar2',
     duration: '50 min',
     pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+    badgeDetails: { id: 'hist-worldwar2-101-badge', name: 'WWII Veteran (Learner)', icon: History, color: 'text-rose-700', description: 'Understood WWII overview.' }
   },
 
   // Technology Lessons (target 5)
@@ -522,6 +562,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-tech-coding-101',
     duration: '45 min',
+    badgeDetails: { id: 'tech-coding-101-badge', name: 'Code Cadet', icon: Binary, color: 'text-gray-700', description: 'Started coding journey.' }
   },
   {
     id: 'tech-ai-101',
@@ -533,6 +574,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-tech-ai-101',
     duration: '40 min',
+    badgeDetails: { id: 'tech-ai-101-badge', name: 'AI Apprentice', icon: Brain, color: 'text-slate-600', description: 'Understood AI basics.' }
   },
   {
     id: 'tech-cybersecurity-101',
@@ -543,6 +585,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-tech-cybersecurity-101',
     duration: '35 min',
+    badgeDetails: { id: 'tech-cybersecurity-101-badge', name: 'Cyber Guardian', icon: ShieldCheck, color: 'text-neutral-700', description: 'Learned cybersecurity.' }
   },
   {
     id: 'tech-datascience-101',
@@ -554,6 +597,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-tech-datascience-101',
     duration: '30 min',
+    badgeDetails: { id: 'tech-datascience-101-badge', name: 'Data Dabbler', icon: BarChartBig, color: 'text-stone-600', description: 'Explored data science.' }
   },
   {
     id: 'tech-webdev-101',
@@ -565,6 +609,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-tech-webdev-101',
     duration: '50 min',
+    badgeDetails: { id: 'tech-webdev-101-badge', name: 'Web Weaver', icon: Code, color: 'text-zinc-700', description: 'Learned HTML & CSS.' }
   },
 
   // Arts Lessons (target 5)
@@ -578,6 +623,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-arts-drawing-101',
     duration: '30 min',
+    badgeDetails: { id: 'arts-drawing-101-badge', name: 'Doodle Dynamo', icon: PenTool, color: 'text-rose-400', description: 'Learned drawing basics.' }
   },
   {
     id: 'arts-music-theory-101',
@@ -589,6 +635,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-arts-music-theory-101',
     duration: '35 min',
+    badgeDetails: { id: 'arts-music-theory-101-badge', name: 'Melody Maker', icon: Music2, color: 'text-fuchsia-500', description: 'Understood music theory.' }
   },
   {
     id: 'arts-color-theory-101',
@@ -600,6 +647,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-arts-color-theory-101',
     duration: '25 min',
+    badgeDetails: { id: 'arts-color-theory-101-badge', name: 'Color Connoisseur', icon: Palette, color: 'text-indigo-400', description: 'Mastered color theory.' }
   },
   {
     id: 'arts-photography-101',
@@ -610,6 +658,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: false,
     quizId: 'quiz-arts-photography-101',
     duration: '28 min',
+    badgeDetails: { id: 'arts-photography-101-badge', name: 'Shutterbug Starter', icon: Camera, color: 'text-violet-500', description: 'Learned photo composition.' }
   },
   {
     id: 'arts-arthistory-101',
@@ -621,6 +670,7 @@ export const MOCK_LESSONS: Lesson[] = [
     isCompleted: true,
     quizId: 'quiz-arts-arthistory-101',
     duration: '40 min',
+    badgeDetails: { id: 'arts-arthistory-101-badge', name: 'Art Historian Initiate', icon: BookMarked, color: 'text-purple-500', description: 'Explored art movements.' }
   },
 ];
 
@@ -1713,12 +1763,18 @@ export const getLessonById = (id: string): Lesson | undefined => MOCK_LESSONS.fi
 export const getQuizById = (id: string): Quiz | undefined => MOCK_QUIZZES.find(quiz => quiz.id === id);
 
 // Helper function to ensure all lesson thumbnails are from picsum.photos
-// This is more of a conceptual fix as data is static. In a real app, data fetching/validation would handle this.
 MOCK_LESSONS.forEach(lesson => {
   if (!lesson.thumbnailUrl.startsWith('https://picsum.photos')) {
-    // Replace with a generic picsum URL if it's not already one.
-    // This is a simple example; a more robust solution might involve hashing title for a seed.
-    const seed = lesson.id.replace(/[^a-zA-Z0-9]/g, ''); // create a seed from id
+    const seed = lesson.id.replace(/[^a-zA-Z0-9]/g, ''); 
     lesson.thumbnailUrl = `https://picsum.photos/seed/${seed}/400/225`;
+  }
+});
+// Ensure MOCK_USER_PROFILE.badges have unique IDs and earned dates for consistency
+MOCK_USER_PROFILE.badges.forEach(badge => {
+  if (!badge.id) {
+    badge.id = `achievement-${badge.name.toLowerCase().replace(/\s+/g, '-')}`;
+  }
+  if (!badge.earnedDate) {
+    badge.earnedDate = new Date().toISOString();
   }
 });

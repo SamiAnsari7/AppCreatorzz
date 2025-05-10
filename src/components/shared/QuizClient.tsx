@@ -1,14 +1,15 @@
 'use client';
 
-import type { Quiz, Question as QuestionType, QuestionOption } from '@/lib/types';
+import type { Quiz, Question as QuestionType, QuestionOption, BadgeInfo } from '@/lib/types';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { CheckCircle, XCircle, AlertTriangle, Lightbulb, RefreshCw } from 'lucide-react';
+import { CheckCircle, XCircle, AlertTriangle, Lightbulb, RefreshCw, Award } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { MOCK_LESSONS, MOCK_USER_PROFILE, getLessonById } from '@/lib/data';
 
 interface QuizClientProps {
   quiz: Quiz;
@@ -26,7 +27,7 @@ export function QuizClient({ quiz }: QuizClientProps) {
   const currentQuestion: QuestionType | undefined = quiz.questions[currentQuestionIndex];
 
   useEffect(() => {
-    // Reset state if quiz changes (though unlikely in this setup)
+    // Reset state if quiz changes
     setCurrentQuestionIndex(0);
     setSelectedOptionId(null);
     setScore(0);
@@ -34,6 +35,45 @@ export function QuizClient({ quiz }: QuizClientProps) {
     setIsQuizFinished(false);
     setFeedback(null);
   }, [quiz]);
+
+  const handleQuizCompletion = () => {
+    setIsQuizFinished(true);
+    const lesson = MOCK_LESSONS.find(l => l.id === quiz.lessonId);
+    if (lesson) {
+      lesson.isCompleted = true; // Mark lesson as completed in the mock data
+      
+      const percentage = (score / quiz.questions.length) * 100;
+      if (percentage >= 50 && lesson.badgeDetails) { // Award badge if score is 50% or more
+        const badgeExists = MOCK_USER_PROFILE.badges.some(b => b.id === lesson.badgeDetails!.id);
+        if (!badgeExists) {
+          const newBadge: BadgeInfo = {
+            ...lesson.badgeDetails,
+            earnedDate: new Date().toISOString(),
+          };
+          MOCK_USER_PROFILE.badges.push(newBadge);
+          MOCK_USER_PROFILE.lessonsCompleted +=1; // Increment lessons completed
+          // Attempt to update XP and level (simple logic for mock)
+          MOCK_USER_PROFILE.xp += 50; // Award 50 XP for completing a lesson with a badge
+          const xpToNextLevel = (MOCK_USER_PROFILE.level + 1) * 100;
+          if(MOCK_USER_PROFILE.xp >= xpToNextLevel) {
+            MOCK_USER_PROFILE.level +=1;
+          }
+
+          toast({
+            title: "Badge Earned!",
+            description: (
+              <div className="flex items-center">
+                <lesson.badgeDetails.icon className={`mr-2 h-5 w-5 ${lesson.badgeDetails.color}`} />
+                You've earned the "{lesson.badgeDetails.name}" badge!
+              </div>
+            ),
+            className: "bg-accent text-accent-foreground",
+          });
+        }
+      }
+    }
+  };
+
 
   if (!currentQuestion && !isQuizFinished) {
     return (
@@ -84,7 +124,7 @@ export function QuizClient({ quiz }: QuizClientProps) {
       setIsAnswered(false);
       setFeedback(null);
     } else {
-      setIsQuizFinished(true);
+      handleQuizCompletion();
     }
   };
 
@@ -125,7 +165,6 @@ export function QuizClient({ quiz }: QuizClientProps) {
   }
   
   if (!currentQuestion) {
-    // This should ideally not be reached if isQuizFinished is handled correctly
      return <p>Loading quiz question...</p>;
   }
 

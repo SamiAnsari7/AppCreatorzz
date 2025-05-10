@@ -9,14 +9,10 @@ import { Edit3 } from 'lucide-react';
 import { UserProfileEditForm } from '@/components/shared/UserProfileEditForm';
 import { useToast } from "@/hooks/use-toast";
 
-// Metadata cannot be dynamically set in client components directly
-// export const metadata = {
-// title: 'My Profile | Rural Scholar',
-// description: 'View your learning progress, badges, and achievements.',
-// };
-
 export default function ProfilePage() {
-  const [userProfile, setUserProfile] = useState<UserProfile>(MOCK_USER_PROFILE);
+  // Initialize state with a deep copy to avoid direct mutation issues if MOCK_USER_PROFILE is modified elsewhere
+  // and to ensure reactivity when the local state is updated.
+  const [userProfile, setUserProfile] = useState<UserProfile>(() => JSON.parse(JSON.stringify(MOCK_USER_PROFILE)));
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toast } = useToast();
 
@@ -25,11 +21,30 @@ export default function ProfilePage() {
     document.title = 'My Profile | Rural Scholar';
   }, []);
 
-  const handleSaveProfile = (updatedProfileData: Partial<Pick<UserProfile, 'name' | 'avatarUrl'>>) => {
+  // Effect to listen for changes in the global MOCK_USER_PROFILE.badges array length
+  // This simulates fetching updated profile data in a real app when badges are earned.
+  useEffect(() => {
+    // Update the local userProfile state to reflect changes in MOCK_USER_PROFILE
+    // Creating new objects/arrays ensures React detects the change and re-renders.
     setUserProfile(prevProfile => ({
-      ...prevProfile,
-      ...updatedProfileData,
+      ...prevProfile, // keep existing fields like name, avatar if they were edited locally
+      ...MOCK_USER_PROFILE, // then overlay with potentially updated global mock data
+      badges: [...MOCK_USER_PROFILE.badges], // specifically ensure badges array is a new reference
     }));
+  }, [MOCK_USER_PROFILE.badges.length]); // Dependency: re-run when number of badges in global mock changes
+
+  const handleSaveProfile = (updatedProfileData: Partial<Pick<UserProfile, 'name' | 'avatarUrl'>>) => {
+    // Update the local state for immediate UI feedback
+    const newProfileState = {
+      ...userProfile,
+      ...updatedProfileData,
+    };
+    setUserProfile(newProfileState);
+
+    // Also update the MOCK_USER_PROFILE so changes persist across navigation (for mock purposes)
+    MOCK_USER_PROFILE.name = newProfileState.name;
+    MOCK_USER_PROFILE.avatarUrl = newProfileState.avatarUrl;
+    
     setIsEditModalOpen(false);
     toast({
       title: "Profile Updated",
@@ -52,7 +67,8 @@ export default function ProfilePage() {
       <UserProfileEditForm
         isOpen={isEditModalOpen}
         setIsOpen={setIsEditModalOpen}
-        profile={userProfile}
+        // Pass the current local state of profile to the edit form
+        profile={userProfile} 
         onSave={handleSaveProfile}
       />
     </div>

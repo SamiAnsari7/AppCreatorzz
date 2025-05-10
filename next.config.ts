@@ -16,6 +16,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+       {
+        protocol: 'https',
+        hostname: 'www.w3schools.com', // For placeholder media
+        port: '',
+        pathname: '/**',
+      },
+       {
+        protocol: 'https',
+        hostname: 'www.w3.org', // For placeholder PDF
+        port: '',
+        pathname: '/**',
+      }
     ],
   },
 };

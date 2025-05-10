@@ -28,9 +28,17 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
-      { // Added to support the problematic URL, though it's better to use configured placeholders
+      {
         protocol: 'https',
         hostname: 'imgs.search.brave.com',
+        port: '',
+        pathname: '/**',
+      },
+      { // Allows images from any HTTPS source.
+        // Be cautious with this in production environments if URL sources are not trusted.
+        // Consider more specific patterns or an image upload/proxy service for better security.
+        protocol: 'https',
+        hostname: '**', // This is a wildcard for any hostname
         port: '',
         pathname: '/**',
       }
